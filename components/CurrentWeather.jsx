@@ -3,7 +3,7 @@ import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined';
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 
 
-const CurrentWeather = ({ lat, lon }) => {
+const CurrentWeather = ({ lat, lon, unit, cityName }) => {
 
   const [value, setValue] = useState(null)
 
@@ -18,14 +18,14 @@ const CurrentWeather = ({ lat, lon }) => {
       }
     
       const data = await res.json()
-      console.log(data)
+    
       setValue({
         name: data.name,
         condition: data.weather[0].main,
         temp: data.main.temp,
         humidity: data.main.humidity,
         windSpeed: data.wind.speed,
-        rain: data.rain ? data.rain['1h'] : 0
+        rain: data.rain ? data.rain['1h'] : 0, 
       })
     }
     fetchCurrentWeather(lat, lon)
@@ -34,10 +34,10 @@ const CurrentWeather = ({ lat, lon }) => {
   // create an object of weather conditions and components 
   function renderCondition() {
     if (value.condition === 'Clear') {
-      return <WbSunnyOutlinedIcon />
+      return <img className='condition-icon' alt='clear-icon' src='./clearIcon.svg' />
     }
     else if (value.condition === 'Clouds') {
-      return <CloudQueueOutlinedIcon />
+      return <img className='condition-icon' alt='cloud-icon' src='./cloudyIcon.svg' />
     }
   }
 
@@ -52,19 +52,28 @@ const CurrentWeather = ({ lat, lon }) => {
     return temp
   }
 
+  // function get current time
+  function getTime() {
+    const today = new Date()
+    const time = today.getHours() + ':' + today.getMinutes()
+    return time
+  }
+
   return (
     <>
-      <div>CurrentWeather</div>
       {value && 
-        <>
-          <h3>City: {value.name}</h3>
-          <p>Temperature: {tempConversion(value.temp, 'C')}</p>
-          <p>Humidity: {value.humidity}%</p>
-          <p>Wind Speed: {value.windSpeed} m/s</p>
-          <p>Condition: {value.condition}</p>
-          <p>Prcipitation: {value.rain}</p>
-          {renderCondition()}
-        </>
+        <div className='weather-data'>
+          <div className='weather'>
+            <p className='weather-main'>{renderCondition()} {tempConversion(value.temp, unit) + '\u00B0' + unit}</p>
+            <p>Humidity: {value.humidity}%</p>
+            <p>Wind: {value.windSpeed} m/s</p>
+            <p>Rain: {value.rain} mm</p>
+          </div>
+          <div className="general">
+            <h1 className='city-name'>{cityName}</h1>
+            {/* {getTime()} */}
+          </div>
+        </div>
       }
     </>
   )

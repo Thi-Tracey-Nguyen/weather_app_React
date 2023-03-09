@@ -8,6 +8,7 @@ const App = () => {
   const [lat, setLat] = useState('')
   const [lon, setLon] = useState('')
   const [matchedCityNames, setMatchedCityNames] = useState([])
+  const [unit, setUnit] = useState('C')
 
   const test = [
     {
@@ -96,7 +97,7 @@ const App = () => {
         }
         </div>
         <div className='current-weather'>
-          {cityNameInput && <CurrentWeather lat={lat} lon={lon}/>}
+          {cityNameInput && <CurrentWeather lat={lat} lon={lon} unit={unit} cityName={cityName}/>}
         </div>
       </div>
     </>
