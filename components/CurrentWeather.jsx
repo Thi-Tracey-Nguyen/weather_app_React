@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined';
 
 const CurrentWeather = ({ lat, lon }) => {
 
@@ -17,12 +18,16 @@ const CurrentWeather = ({ lat, lon }) => {
       const data = await res.json()
       console.log(data)
       setValue({
+        name: data.name,
+        condition: data.weather[0].main,
         temp: data.main.temp,
         humidity: data.main.humidity,
+        windSpeed: data.wind.speed,
+        rain: data.rain ? data.rain['1h'] : 0
       })
     }
     fetchCurrentWeather(lat, lon)
-  }, [])
+  }, [lat, lon])
 
   function tempConversion(value, unit) {
     let temp
@@ -34,14 +39,18 @@ const CurrentWeather = ({ lat, lon }) => {
     return temp
   }
 
-
   return (
     <>
       <div>CurrentWeather</div>
       {value && 
         <>
+          <h3>{value.name}</h3>
           <p>{tempConversion(value.temp, 'C')}</p>
           <p>{value.humidity}</p>
+          <p>{value.humidity}</p>
+          <p>{value.windSpeed}</p>
+          <p>{value.condition}</p>
+          <p>{value.rain}</p>
         </>
       }
     </>
