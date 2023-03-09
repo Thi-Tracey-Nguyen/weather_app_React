@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined';
+import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
+
 
 const CurrentWeather = ({ lat, lon }) => {
 
@@ -29,6 +31,17 @@ const CurrentWeather = ({ lat, lon }) => {
     fetchCurrentWeather(lat, lon)
   }, [lat, lon])
 
+  // create an object of weather conditions and components 
+  function renderCondition() {
+    if (value.condition === 'Clear') {
+      return <WbSunnyOutlinedIcon />
+    }
+    else if (value.condition === 'Clouds') {
+      return <CloudQueueOutlinedIcon />
+    }
+  }
+
+  // converts tempt from Kelvin to C or F
   function tempConversion(value, unit) {
     let temp
     if (unit === 'C') {
@@ -44,13 +57,13 @@ const CurrentWeather = ({ lat, lon }) => {
       <div>CurrentWeather</div>
       {value && 
         <>
-          <h3>{value.name}</h3>
-          <p>{tempConversion(value.temp, 'C')}</p>
-          <p>{value.humidity}</p>
-          <p>{value.humidity}</p>
-          <p>{value.windSpeed}</p>
-          <p>{value.condition}</p>
-          <p>{value.rain}</p>
+          <h3>City: {value.name}</h3>
+          <p>Temperature: {tempConversion(value.temp, 'C')}</p>
+          <p>Humidity: {value.humidity}%</p>
+          <p>Wind Speed: {value.windSpeed} m/s</p>
+          <p>Condition: {value.condition}</p>
+          <p>Prcipitation: {value.rain}</p>
+          {renderCondition()}
         </>
       }
     </>

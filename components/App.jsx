@@ -3,7 +3,7 @@ import CurrentWeather from './CurrentWeather'
 import SearchIcon from '@mui/icons-material/Search'
 
 const App = () => {
-  const [cityNameInput, setCityNameInput] = useState('Melbourne')
+  const [cityNameInput, setCityNameInput] = useState('')
   const [cityName, setCityName] = useState('')
   const [lat, setLat] = useState('')
   const [lon, setLon] = useState('')
@@ -67,31 +67,38 @@ const App = () => {
     setCityName(event.target.getAttribute('value'))
     setLat(event.target.getAttribute('lat'))
     setLon(event.target.getAttribute('lon'))
+    setMatchedCityNames([])
   }  
 
   console.log(matchedCityNames)
 
   return (
     <>
-      <div>App
-        <form className='search-inputs'>
-          <input 
-            type='text' 
-            placeholder='City Name'
-            value={cityNameInput}
-            onChange={handleChange}
-          />
-          <div className='search-icon'>
-            <SearchIcon />
+      <div className="container">
+        <div className='search-bar'>
+          <div className='search-inputs'>
+            <input 
+              type='text' 
+              placeholder='City Name'
+              value={cityNameInput}
+              onChange={handleChange}
+            />
+            <div className='search-icon'>
+              <SearchIcon />
+            </div>
           </div>
-        </form>
-      </div>
-      <div>
-        {matchedCityNames.length != 0 ? matchedCityNames.map((city, index) => (
-          <p key={index} onClick={handleClick} value={city.name} lat={city.lat} lon={city.lon}>{city.name}, {city.country}</p>)) : ''
+          {matchedCityNames.length != 0 &&
+          <div className='data-result'>
+            {matchedCityNames.map((city, index) => (
+              <p key={index} onClick={handleClick} value={city.name} lat={city.lat} lon={city.lon}>{city.name}, {city.country}</p>))
+            }
+          </div>
         }
+        </div>
+        <div className='current-weather'>
+          {cityNameInput && <CurrentWeather lat={lat} lon={lon}/>}
+        </div>
       </div>
-      <CurrentWeather lat={lat} lon={lon}/>
     </>
   )
 }
