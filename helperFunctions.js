@@ -7,8 +7,6 @@ function convertTime(timezone) {
   return `${hours}:${minutes}`
 }
 
-console.log(convertTime(3600))
-
 function convertDate(timezone) {
   const time = new Date().getTime() + timezone
   const date = new Date(time)

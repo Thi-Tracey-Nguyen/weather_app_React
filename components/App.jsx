@@ -89,7 +89,7 @@ const App = () => {
               onChange={handleChange}
             />
             <div className='search-icon'>
-              {cityNameInput === '' ? <SearchIcon /> : <ClearIcon onClick={() => setCityNameInput('')}/>}
+              {cityNameInput === '' ? <SearchIcon /> : <ClearIcon className='clear' onClick={() => setCityNameInput('')}/>}
             </div>
           </div>
           {matchedCityNames.length != 0 &&
