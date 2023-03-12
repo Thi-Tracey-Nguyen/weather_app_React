@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import CurrentWeather from './CurrentWeather'
 import SearchIcon from '@mui/icons-material/Search'
+import ClearIcon from '@mui/icons-material/Clear';
 
 const App = () => {
   const [cityNameInput, setCityNameInput] = useState('')
-  const [cityName, setCityName] = useState('')
+  const [cityObject, setCityObject] = useState(null)
   const [lat, setLat] = useState('')
   const [lon, setLon] = useState('')
   const [matchedCityNames, setMatchedCityNames] = useState([])
@@ -65,9 +66,12 @@ const App = () => {
 
   // handles choosing a city in the search bar
   const handleClick = (event) => {
-    setCityName(event.target.getAttribute('value'))
-    setLat(event.target.getAttribute('lat'))
-    setLon(event.target.getAttribute('lon'))
+    setCityObject({
+      name: event.target.getAttribute('data-city'),
+      country: event.target.getAttribute('data-country')
+    })
+    setLat(event.target.getAttribute('data-lat'))
+    setLon(event.target.getAttribute('data-lon'))
     setMatchedCityNames([])
   }  
 
@@ -85,19 +89,27 @@ const App = () => {
               onChange={handleChange}
             />
             <div className='search-icon'>
-              <SearchIcon />
+              {cityNameInput === '' ? <SearchIcon /> : <ClearIcon onClick={() => setCityNameInput('')}/>}
             </div>
           </div>
           {matchedCityNames.length != 0 &&
           <div className='data-result'>
             {matchedCityNames.map((city, index) => (
-              <p key={index} onClick={handleClick} value={city.name} lat={city.lat} lon={city.lon}>{city.name}, {city.country}</p>))
+              <p 
+                key={index} 
+                onClick={handleClick} 
+                data-city={city.name} 
+                data-country={city.country} 
+                data-lat={city.lat} 
+                data-lon={city.lon}
+              > {city.name}, {city.country}
+              </p>))
             }
           </div>
         }
         </div>
         <div className='current-weather'>
-          {cityNameInput && <CurrentWeather lat={lat} lon={lon} unit={unit} cityName={cityName}/>}
+          {cityObject && <CurrentWeather lat={lat} lon={lon} unit={unit} cityObject={cityObject}/>}
         </div>
       </div>
     </>

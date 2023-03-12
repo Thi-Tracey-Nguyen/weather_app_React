@@ -3,7 +3,7 @@ import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined';
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 
 
-const CurrentWeather = ({ lat, lon, unit, cityName }) => {
+const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
 
   const [value, setValue] = useState(null)
 
@@ -18,6 +18,7 @@ const CurrentWeather = ({ lat, lon, unit, cityName }) => {
       }
     
       const data = await res.json()
+      console.log(data.timezone)
     
       setValue({
         name: data.name,
@@ -33,11 +34,24 @@ const CurrentWeather = ({ lat, lon, unit, cityName }) => {
 
   // create an object of weather conditions and components 
   function renderCondition() {
-    if (value.condition === 'Clear') {
-      return <img className='condition-icon' alt='clear-icon' src='./clearIcon.svg' />
-    }
-    else if (value.condition === 'Clouds') {
-      return <img className='condition-icon' alt='cloud-icon' src='./cloudyIcon.svg' />
+    switch(value.condition) {
+      case 'Rain':
+        return <img src='./rainIcon.svg' alt='rain-icon' className='condition-icon' />
+      
+      case 'Clear':
+        return <img src='./clearIcon.svg' alt='clear-icon' className='condition-icon' />
+
+      case 'Snow':
+        return <img src='./snowIcon.svg' alt='snow-icon' className='condition-icon' />
+
+      case 'Mist':
+        return <img src='./mistIcon.svg' alt='mist-icon' className='condition-icon' />
+
+      case 'Clouds':
+        return <img src='./cloudyIcon.svg' alt='cloud-icon' className='condition-icon' />
+
+      default: 
+        return <p>{value.condition}</p>
     }
   }
 
@@ -70,7 +84,7 @@ const CurrentWeather = ({ lat, lon, unit, cityName }) => {
             <p>Rain: {value.rain} mm</p>
           </div>
           <div className="general">
-            <h1 className='city-name'>{cityName}</h1>
+            <h2 className='city-name'>{cityObject.name}, {cityObject.country}</h2>
             {/* {getTime()} */}
           </div>
         </div>
