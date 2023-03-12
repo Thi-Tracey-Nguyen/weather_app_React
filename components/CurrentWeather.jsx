@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined';
-import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
+import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined'
+import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
+import { convertTime, convertTemp, convertDate } from '../helperFunctions'
 
 
 const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
@@ -18,10 +19,12 @@ const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
       }
     
       const data = await res.json()
-      console.log(data.timezone)
+      console.log(data)
     
       setValue({
         name: data.name,
+        time: convertTime(data.timezone),
+        date: convertDate(data.timezone),
         condition: data.weather[0].main,
         temp: data.main.temp,
         humidity: data.main.humidity,
@@ -55,37 +58,20 @@ const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
     }
   }
 
-  // converts tempt from Kelvin to C or F
-  function tempConversion(value, unit) {
-    let temp
-    if (unit === 'C') {
-      temp = Math.floor(value - 273.15)
-    } else if (unit === 'F') {
-      temp = (value - 273.15) * 9/5 + 32
-    }
-    return temp
-  }
-
-  // function get current time
-  function getTime() {
-    const today = new Date()
-    const time = today.getHours() + ':' + today.getMinutes()
-    return time
-  }
-
   return (
     <>
       {value && 
         <div className='weather-data'>
           <div className='weather'>
-            <p className='weather-main'>{renderCondition()} {tempConversion(value.temp, unit) + '\u00B0' + unit}</p>
+            <p className='weather-main'>{renderCondition()} {convertTemp(value.temp, unit) + '\u00B0' + unit}</p>
             <p>Humidity: {value.humidity}%</p>
             <p>Wind: {value.windSpeed} m/s</p>
             <p>Rain: {value.rain} mm</p>
           </div>
           <div className="general">
-            <h2 className='city-name'>{cityObject.name}, {cityObject.country}</h2>
-            {/* {getTime()} */}
+            <h2>{value.date}</h2>
+            <p className='city-name'>{cityObject.name}, {cityObject.country}</p>
+            <p>{value.time}</p>
           </div>
         </div>
       }
