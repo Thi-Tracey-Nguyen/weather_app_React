@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined'
-import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined'
 import { convertTime, convertTemp, convertDate } from '../helperFunctions'
 
 
@@ -10,7 +8,7 @@ const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
 
   useEffect(() => {
     async function fetchCurrentWeather(lat, lon) {
-      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=6cb52d1ec85643988c8c6d46d8001531`)
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=d145974fac8fb803900422c2cc1d620e`)
       
       //hanldes errors
       if (!res.ok) {
@@ -19,12 +17,11 @@ const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
       }
     
       const data = await res.json()
-      console.log(data)
     
       setValue({
         name: data.name,
-        time: convertTime(data.timezone),
-        date: convertDate(data.timezone),
+        time: convertTime(data.timezone*1000),
+        date: convertDate(data.timezone*1000),
         condition: data.weather[0].main,
         temp: data.main.temp,
         humidity: data.main.humidity,

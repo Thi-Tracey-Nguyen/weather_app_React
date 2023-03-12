@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import CurrentWeather from './CurrentWeather'
 import SearchIcon from '@mui/icons-material/Search'
 import ClearIcon from '@mui/icons-material/Clear';
+import HourlyWeather from './HourlyWeather'
 
 const App = () => {
   const [cityNameInput, setCityNameInput] = useState('')
@@ -10,25 +11,6 @@ const App = () => {
   const [lon, setLon] = useState('')
   const [matchedCityNames, setMatchedCityNames] = useState([])
   const [unit, setUnit] = useState('C')
-
-  const test = [
-    {
-      name: 'Melbourne',
-      country: "AU"
-    }, 
-    {
-      name: "London",
-      country: "UK"
-    }, 
-    {
-      name: "HCM",
-      country: "VN"
-    }, 
-    {
-      name: "Bangkok",
-      country: "TH"
-    }
-  ]
 
   const API_KEY = 'd145974fac8fb803900422c2cc1d620e'
 
@@ -75,8 +57,6 @@ const App = () => {
     setMatchedCityNames([])
   }  
 
-  console.log(matchedCityNames)
-
   return (
     <>
       <div className="container">
@@ -111,6 +91,7 @@ const App = () => {
         <div className='current-weather'>
           {cityObject && <CurrentWeather lat={lat} lon={lon} unit={unit} cityObject={cityObject}/>}
         </div>
+        <HourlyWeather lat={lat} lon={lon} cityObject={cityObject} />
       </div>
     </>
   )

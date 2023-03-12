@@ -2,7 +2,7 @@
 function convertTime(timezone) {
   const time = new Date().getTime() + timezone
   const date = new Date(time)
-  const hours = date.getUTCHours() < 12 ? `0${date.getUTCHours()}` : date.getUTCHours()
+  const hours = date.getUTCHours() < 10 ? `0${date.getUTCHours()}` : date.getUTCHours()
   const minutes = date.getUTCMinutes() < 10 ? `0${date.getUTCMinutes()}` : date.getUTCMinutes()
   return `${hours}:${minutes}`
 }
