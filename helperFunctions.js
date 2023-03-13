@@ -1,22 +1,30 @@
-// converts UTC time to time at the choosen city
-function convertTime(timezone) {
-  const time = new Date().getTime() + timezone
-  const date = new Date(time)
-  const hours = date.getUTCHours() < 10 ? `0${date.getUTCHours()}` : date.getUTCHours()
-  const minutes = date.getUTCMinutes() < 10 ? `0${date.getUTCMinutes()}` : date.getUTCMinutes()
-  return `${hours}:${minutes}`
+// converts timezone to date object 
+function timezoneToDate(timezone) {
+  const time = new Date().getTime() + timezone*1000
+  return new Date(time)
 }
 
-function convertDate(timezone) {
-  const time = new Date().getTime() + timezone
-  const date = new Date(time)
+
+// converts date in text format to date object
+function stringToDate(text) {
+  return new Date(`${text} UTC`)
+}
+
+// converts date object to an object with date and time properties
+function dateToObject(date) {
   const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
   ]
   const dayNames = ["Sunday", "Monday", "Tueday", "Weday", "Thursday", "Friday", "Saturday"]
-  return `${dayNames[date.getUTCDay()]}, ${date.getUTCDate()} ${monthNames[date.getUTCMonth()]}`
-}
 
+  const hours = date.getUTCHours() < 10 ? `0${date.getUTCHours()}` : date.getUTCHours()
+  const minutes = date.getUTCMinutes() < 10 ? `0${date.getUTCMinutes()}` : date.getUTCMinutes()
+
+  return {
+    date: `${dayNames[date.getUTCDay()]}, ${date.getUTCDate()} ${monthNames[date.getUTCMonth()]}`,
+    time: `${hours}:${minutes}`
+  }
+}
 
 // converts Kelvin to choosen unit
 function convertTemp(value, unit) {
@@ -28,4 +36,4 @@ function convertTemp(value, unit) {
   }
   return temp
 }
-export { convertTime, convertTemp, convertDate }
+export { timezoneToDate, stringToDate, dateToObject, convertTemp }

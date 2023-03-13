@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { convertTime, convertTemp, convertDate } from '../helperFunctions'
+import { timezoneToDate, convertTemp, dateToObject } from '../helperFunctions'
 
 
 const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
@@ -17,11 +17,13 @@ const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
       }
     
       const data = await res.json()
+      const date = timezoneToDate(data.timezone)
+      const dateObject = dateToObject(date)
     
       setValue({
         name: data.name,
-        time: convertTime(data.timezone*1000),
-        date: convertDate(data.timezone*1000),
+        time: dateObject.time,
+        date: dateObject.date,
         condition: data.weather[0].main,
         temp: data.main.temp,
         humidity: data.main.humidity,
