@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { timezoneToDate, convertTemp, dateToObject } from '../helperFunctions'
+import { timezoneToDate, convertTemp, dateToObject, renderCondition } from '../helperFunctions'
 
 
-const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
+const CurrentWeather = ({ unit, cityObject }) => {
 
   const [value, setValue] = useState(null)
 
@@ -33,38 +33,18 @@ const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
         rain: data.rain ? data.rain['1h'] : 0, 
       })
     }
-    fetchCurrentWeather(lat, lon)
-  }, [lat, lon])
-
-  // create an object of weather conditions and components 
-  function renderCondition() {
-    switch(value.condition) {
-      case 'Rain':
-        return <img src='./rainIcon.svg' alt='rain-icon' className='condition-icon' />
-      
-      case 'Clear':
-        return <img src='./clearIcon.svg' alt='clear-icon' className='condition-icon' />
-
-      case 'Snow':
-        return <img src='./snowIcon.svg' alt='snow-icon' className='condition-icon' />
-
-      case 'Mist':
-        return <img src='./mistIcon.svg' alt='mist-icon' className='condition-icon' />
-
-      case 'Clouds':
-        return <img src='./cloudyIcon.svg' alt='cloud-icon' className='condition-icon' />
-
-      default: 
-        return <p>{value.condition}</p>
-    }
-  }
+    fetchCurrentWeather(cityObject.lat, cityObject.lon)
+  }, [cityObject])
 
   return (
     <>
       {value && 
         <div className='weather-data'>
           <div className='weather'>
-            <p className='weather-main'>{renderCondition()} {convertTemp(value.temp, 'K', unit) + '\u00B0' + unit}</p>
+            <div className='weather-main'>
+              <img src={renderCondition(value.condition)}  />
+              {convertTemp(value.temp, 'K', unit) + '\u00B0' + unit}
+            </div>
             <p>Humidity: {value.humidity}%</p>
             <p>Wind: {value.windSpeed} m/s</p>
             <p>Rain: {value.rain} mm</p>

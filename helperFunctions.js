@@ -50,9 +50,34 @@ function getHourlyForecast(timezone, array) {
   const date = timezoneToDate(timezone)
   const dateObject = dateToObject(date)
 
-  const filteredArr = array.filter(item => item.date.time > dateObject.time)
+  const filteredArr = array.filter(item => item.date.time > dateObject.time + 3*3600)
   return filteredArr
 }
 
+// create an object of weather conditions and components 
+function renderCondition(condition) {
+  switch(condition) {
+    case 'Rain':
+      return './rainIcon.svg'
+    case 'Clear':
+      return './clearIcon.svg'
+    case 'Snow':
+      return './snowIcon.svg'
+      
+    case 'Mist':
+      return './mistIcon.svg'
+      
+    case 'Clouds':
+      return './cloudyIcon.svg'
+      
+
+    case 'Partly Cloudy': 
+      return './partlyCloudyIcon.svg'
+      
+    default: 
+      return './clearIcon.svg'
+  }
+}
+
 // getHourlyForecast(36000, )
-export { timezoneToDate, stringToDate, dateToObject, convertTemp, getHourlyForecast }
+export { timezoneToDate, stringToDate, dateToObject, convertTemp, getHourlyForecast, renderCondition }

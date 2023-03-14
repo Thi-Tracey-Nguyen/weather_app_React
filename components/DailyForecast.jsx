@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { convertTemp, stringToDate, dateToObject } from '../helperFunctions'
 
-const DailyForecast = ({ lat, lon, unit }) => {
+const DailyForecast = ({ cityObject, unit }) => {
 
   const [dailyForecast, setDailyForecast] = useState([])
 
@@ -25,10 +25,9 @@ const DailyForecast = ({ lat, lon, unit }) => {
         condition: day.icon
       }))
       setDailyForecast(dailyData)
-      console.log(dailyData)
     }
-    fetchHourlyForecast(lat, lon)
-  }, [lat, lon])
+    fetchHourlyForecast(cityObject.lat, cityObject.lon)
+  }, [cityObject])
 
   return (
     <div className='daily-container'>
