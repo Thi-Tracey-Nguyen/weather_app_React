@@ -33,7 +33,7 @@ const App = () => {
           name: city.name,
           country: city.country,
           lat: city.lat,
-          lon: city.lon
+          lon: city.lon, 
         })
       })
       setMatchedCityNames(result)
@@ -91,7 +91,7 @@ const App = () => {
         <div className='current-weather'>
           {cityObject && <CurrentWeather lat={lat} lon={lon} unit={unit} cityObject={cityObject}/>}
         </div>
-        <HourlyWeather lat={lat} lon={lon} cityObject={cityObject} />
+        <HourlyWeather lat={lat} lon={lon} unit={unit} />
       </div>
     </>
   )

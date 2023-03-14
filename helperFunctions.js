@@ -30,10 +30,23 @@ function dateToObject(date) {
 function convertTemp(value, unit) {
   let temp
   if (unit === 'C') {
-    temp = Math.floor(value - 273.15)
+    temp = Math.round(value - 273.15)
   } else if (unit === 'F') {
-    temp = (value - 273.15) * 9/5 + 32
+    temp = Math.round((value - 273.15) * 9/5 + 32)
   }
   return temp
 }
-export { timezoneToDate, stringToDate, dateToObject, convertTemp }
+
+// separates current weather from the rest of the day
+function getHourlyForecast(timezone, array) {
+
+  //creates an object to hold current date and time values
+  const date = timezoneToDate(timezone)
+  const dateObject = dateToObject(date)
+
+  const filteredArr = array.filter(item => item.date.time > dateObject.time)
+  return filteredArr
+}
+
+// getHourlyForecast(36000, )
+export { timezoneToDate, stringToDate, dateToObject, convertTemp, getHourlyForecast }

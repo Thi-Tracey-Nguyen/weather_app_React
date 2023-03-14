@@ -17,6 +17,8 @@ const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
       }
     
       const data = await res.json()
+
+      //creates an object to hold date and time values
       const date = timezoneToDate(data.timezone)
       const dateObject = dateToObject(date)
     

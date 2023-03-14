@@ -1,9 +1,9 @@
-import { ContactSupportOutlined } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
-import { stringToDate, dateToObject } from '../helperFunctions'
+import { stringToDate, dateToObject, convertTemp, getHourlyForecast } from '../helperFunctions'
 
-const HourlyWeather = ({ lat, lon, cityObject}) => {
+const HourlyWeather = ({ lat, lon, unit }) => {
 
+  const [forecast, setForecast] = useState([])
   // fetch hourly forecast
   useEffect(() => {
     async function fetchHourlyForecast(lat, lon) {
@@ -15,25 +15,37 @@ const HourlyWeather = ({ lat, lon, cityObject}) => {
       }
 
       const data = await res.json()
-      // console.log(data)
-      // const date = stringToDate(data.list[0].dt_txt)
-      // const dateObject = dateToObject(date)
-      const list = data.list
+      
+      const list = data.list.splice(0, 7)
 
+      // // extracts date and time info from data into an array of objects
       const forecast = list.map(item => (
         {
         date: dateToObject(stringToDate(item.dt_txt)),
-        temp: item.main.temp,
+        temp: convertTemp(item.main.temp, unit),
+        condition: item.weather[0].main
         }
       ))
-
-      console.log(forecast)
+      const filteredArr = getHourlyForecast(data.city.timezone, forecast)
+      console.log(data.timezone)
+      setForecast(filteredArr)
     }
     fetchHourlyForecast(lat, lon)
   }, [lat, lon])
 
   return (
-    <div>HourlyWeather</div>
+    <>
+      <div>HourlyWeather</div>
+      <div className='hourly-container'>
+        {forecast.length !== 0 && forecast.map(item => (
+          <div className='hourly-item'>
+            <p>{item.date.time}</p>
+            <p>{item.temp}</p>
+            <p>{item.condition}</p>
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
 

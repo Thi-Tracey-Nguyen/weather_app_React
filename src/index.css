@@ -114,6 +114,15 @@ a:hover {
   display: none;
 }
 
+.hourly-container {
+  display: flex;
+}
+
+.hourly-item {
+  border: 0.1rem solid black;
+
+}
+
 @media screen and (min-width: 400px) {
   .container {
     width: 80%;
