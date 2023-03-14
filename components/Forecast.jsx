@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { stringToDate, dateToObject, convertTemp, getHourlyForecast } from '../helperFunctions'
 
-const HourlyWeather = ({ lat, lon, unit }) => {
+const Forecast = ({ lat, lon, unit }) => {
 
-  const [forecast, setForecast] = useState([])
+  const [hourlyForecast, setHourlyForecast] = useState([])
+  const [dailyForecast, setDailyForecast] = useState([])
   // fetch hourly forecast
   useEffect(() => {
     async function fetchHourlyForecast(lat, lon) {
@@ -22,31 +23,33 @@ const HourlyWeather = ({ lat, lon, unit }) => {
       const forecast = list.map(item => (
         {
         date: dateToObject(stringToDate(item.dt_txt)),
-        temp: convertTemp(item.main.temp, unit),
+        temp: convertTemp(item.main.temp, 'K', unit),
         condition: item.weather[0].main
         }
       ))
       const filteredArr = getHourlyForecast(data.city.timezone, forecast)
-      console.log(data.timezone)
-      setForecast(filteredArr)
+ 
+      setHourlyForecast(filteredArr)
     }
     fetchHourlyForecast(lat, lon)
   }, [lat, lon])
 
   return (
     <>
-      <div>HourlyWeather</div>
       <div className='hourly-container'>
-        {forecast.length !== 0 && forecast.map(item => (
+        {hourlyForecast.length !== 0 && hourlyForecast.map(item => (
           <div className='hourly-item'>
             <p>{item.date.time}</p>
-            <p>{item.temp}</p>
+            <p>{item.temp + '\u00B0' + unit}</p>
             <p>{item.condition}</p>
           </div>
         ))}
+      </div>
+      <div className='five-day-container'>
+
       </div>
     </>
   )
 }
 
-export default HourlyWeather
+export default Forecast

@@ -120,7 +120,15 @@ a:hover {
 
 .hourly-item {
   border: 0.1rem solid black;
+}
 
+.daily-container {
+  display: flex;
+}
+
+.daily-item {
+  border: 0.1rem solid black;
+  
 }
 
 @media screen and (min-width: 400px) {

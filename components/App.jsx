@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import CurrentWeather from './CurrentWeather'
 import SearchIcon from '@mui/icons-material/Search'
 import ClearIcon from '@mui/icons-material/Clear';
-import HourlyWeather from './HourlyWeather'
+import Forecast from './Forecast'
+import DailyForecast from './DailyForecast'
 
 const App = () => {
   const [cityNameInput, setCityNameInput] = useState('')
@@ -26,7 +27,7 @@ const App = () => {
       }
     
       const data = await res.json()
-      
+
       let result = []
       data && data.forEach((city) => {
         result.push({
@@ -91,7 +92,8 @@ const App = () => {
         <div className='current-weather'>
           {cityObject && <CurrentWeather lat={lat} lon={lon} unit={unit} cityObject={cityObject}/>}
         </div>
-        <HourlyWeather lat={lat} lon={lon} unit={unit} />
+        <Forecast lat={lat} lon={lon} unit={unit} />
+        <DailyForecast lat={lat} lon={lon} unit={unit} />
       </div>
     </>
   )

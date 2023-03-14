@@ -64,7 +64,7 @@ const CurrentWeather = ({ lat, lon, unit, cityObject }) => {
       {value && 
         <div className='weather-data'>
           <div className='weather'>
-            <p className='weather-main'>{renderCondition()} {convertTemp(value.temp, unit) + '\u00B0' + unit}</p>
+            <p className='weather-main'>{renderCondition()} {convertTemp(value.temp, 'K', unit) + '\u00B0' + unit}</p>
             <p>Humidity: {value.humidity}%</p>
             <p>Wind: {value.windSpeed} m/s</p>
             <p>Rain: {value.rain} mm</p>

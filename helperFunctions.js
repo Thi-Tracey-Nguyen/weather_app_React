@@ -10,12 +10,14 @@ function stringToDate(text) {
   return new Date(`${text} UTC`)
 }
 
+// console.log(dateToObject(stringToDate('2023-03-15')))
+
 // converts date object to an object with date and time properties
 function dateToObject(date) {
   const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
   ]
-  const dayNames = ["Sunday", "Monday", "Tueday", "Weday", "Thursday", "Friday", "Saturday"]
+  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
   const hours = date.getUTCHours() < 10 ? `0${date.getUTCHours()}` : date.getUTCHours()
   const minutes = date.getUTCMinutes() < 10 ? `0${date.getUTCMinutes()}` : date.getUTCMinutes()
@@ -27,12 +29,16 @@ function dateToObject(date) {
 }
 
 // converts Kelvin to choosen unit
-function convertTemp(value, unit) {
+function convertTemp(value, initialUnit, resultUnit) {
   let temp
-  if (unit === 'C') {
+  if (initialUnit === 'K' && resultUnit === 'C') {
     temp = Math.round(value - 273.15)
-  } else if (unit === 'F') {
+  } else if (initialUnit === 'K' && resultUnit === 'F') {
     temp = Math.round((value - 273.15) * 9/5 + 32)
+  } else if (initialUnit === 'F' && resultUnit === 'C') {
+    temp = Math.round((value - 32) * 5/9)
+  } else {
+    temp = value
   }
   return temp
 }
