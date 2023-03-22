@@ -3,6 +3,7 @@ import CurrentWeather from './CurrentWeather'
 import SearchBar from './SearchBar'
 import Forecast from './Forecast'
 import DailyForecast from './DailyForecast'
+import Toggle from './Toggle'
 
 const App = () => {
   const MELBOURNE = {
@@ -28,7 +29,10 @@ const App = () => {
   return (
     <>
       <div className="container">
-        <SearchBar onClick={handleSelect} cityObject={cityObject}/>
+        <div className='utils'>
+          <SearchBar onClick={handleSelect} cityObject={cityObject}/>
+          <Toggle />
+        </div>
         <div className='current-weather'>
           {cityObject && <CurrentWeather unit={unit} cityObject={cityObject}/>}
         </div>

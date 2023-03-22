@@ -7,9 +7,14 @@ p {
 }
 
 .search-bar {
-  margin-top: 105px;
   display: flex;
   flex-direction: column;
+}
+
+.utils {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .search-inputs {
