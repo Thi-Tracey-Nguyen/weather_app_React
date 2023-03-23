@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { timezoneToDate, convertTemp, dateToObject, renderCondition } from '../helperFunctions'
+import { timezoneToDate, convertTemp, dateToObject, renderCondition, convertWindSpeed } from '../../helperFunctions'
 
 
-const CurrentWeather = ({ unit, cityObject }) => {
+const CurrentWeather = ({ unit, cityObject, speedUnit }) => {
 
   const [value, setValue] = useState(null)
 
@@ -46,7 +46,7 @@ const CurrentWeather = ({ unit, cityObject }) => {
               {convertTemp(value.temp, 'K', unit) + '\u00B0' + unit}
             </div>
             <p>Humidity: {value.humidity}%</p>
-            <p>Wind: {value.windSpeed} m/s</p>
+            <p>Wind: {convertWindSpeed(value.windSpeed, speedUnit)} {speedUnit}</p>
             <p>Rain: {value.rain} mm</p>
           </div>
           <div className="general">

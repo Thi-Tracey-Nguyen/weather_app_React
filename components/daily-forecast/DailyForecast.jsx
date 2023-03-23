@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { convertTemp, stringToDate, dateToObject } from '../helperFunctions'
+import { convertTemp, stringToDate, dateToObject } from '../../helperFunctions'
 
 const DailyForecast = ({ cityObject, unit }) => {
 

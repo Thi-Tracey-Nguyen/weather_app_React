@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { stringToDate, dateToObject, convertTemp, getHourlyForecast } from '../helperFunctions'
+import { stringToDate, dateToObject, convertTemp, getHourlyForecast } from '../../helperFunctions'
 
 const Forecast = ({ cityObject, unit }) => {
 
@@ -23,17 +23,19 @@ const Forecast = ({ cityObject, unit }) => {
       const forecast = list.map(item => (
         {
         date: dateToObject(stringToDate(item.dt_txt)),
-        temp: convertTemp(item.main.temp, 'K', unit),
+        temp: item.main.temp,
         condition: item.weather[0].main
         }
       ))
-      console.log(forecast)
       const filteredArr = getHourlyForecast(data.city.timezone, forecast)
       filteredArr.length > 1 ? setHourlyForecast(filteredArr) : setHourlyForecast([forecast[3]])
+      console.log(filteredArr)
+
     }
     fetchHourlyForecast(cityObject.lat, cityObject.lon)
-    console.log(cityObject)
   }, [cityObject])
+
+  console.log(unit)
 
   return (
     <>
@@ -41,7 +43,7 @@ const Forecast = ({ cityObject, unit }) => {
         {hourlyForecast.length !== 0 && hourlyForecast.map((item, index) => (
           <div className='hourly-item' key={index}>
             <p>{item.date.time}</p>
-            <p>{item.temp + '\u00B0' + unit}</p>
+            <p>{convertTemp(item.temp, "K", unit) + '\u00B0' + unit}</p>
             <p>{item.condition}</p>
           </div>
         ))}

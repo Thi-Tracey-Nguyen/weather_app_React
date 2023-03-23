@@ -32,11 +32,11 @@ function dateToObject(date) {
 function convertTemp(value, initialUnit, resultUnit) {
   let temp
   if (initialUnit === 'K' && resultUnit === 'C') {
-    temp = Math.round(value - 273.15)
+    temp = (value - 273.15).toFixed(1)
   } else if (initialUnit === 'K' && resultUnit === 'F') {
-    temp = Math.round((value - 273.15) * 9/5 + 32)
+    temp = ((value - 273.15) * 9/5 + 32).toFixed(1)
   } else if (initialUnit === 'F' && resultUnit === 'C') {
-    temp = Math.round((value - 32) * 5/9)
+    temp = ((value - 32) * 5/9).toFixed(1)
   } else {
     temp = value
   }
@@ -79,5 +79,13 @@ function renderCondition(condition) {
   }
 }
 
-// getHourlyForecast(36000, )
-export { timezoneToDate, stringToDate, dateToObject, convertTemp, getHourlyForecast, renderCondition }
+//convert meter/sec to desired unit
+function convertWindSpeed(value, resultUnit) {
+  if (resultUnit === 'km/h') {
+    return (value * 3.6).toFixed(2)
+  } else {
+    return (value * 2.23694).toFixed(2)
+  }
+}
+
+export { timezoneToDate, stringToDate, dateToObject, convertTemp, getHourlyForecast, renderCondition, convertWindSpeed }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import CurrentWeather from './CurrentWeather'
-import SearchBar from './SearchBar'
-import Forecast from './Forecast'
-import DailyForecast from './DailyForecast'
-import Toggle from './Toggle'
+import CurrentWeather from '../CurrentWeather'
+import SearchBar from '../SearchBar'
+import Forecast from '../Forecast'
+import DailyForecast from '../DailyForecast'
+import Toggle from '../Toggle'
 
 const App = () => {
   const MELBOURNE = {
@@ -15,6 +15,7 @@ const App = () => {
   const [cityObject, setCityObject] = useState(MELBOURNE)
   
   const [unit, setUnit] = useState('C')
+  const [speedUnit, setSpeedUnit] = useState('m/s')
 
   // handles choosing a city in the search bar
   const handleSelect = (event) => {
@@ -26,15 +27,26 @@ const App = () => {
     })
   }  
 
+  // handle changing unit between C and F
+  const handleClickUnit = (event) => {
+    if (event.target.checked) {
+      setUnit("F")
+      setSpeedUnit('mph')
+    } else {
+      setUnit("C")
+      setSpeedUnit('km/h')
+    }
+  }
+
   return (
     <>
       <div className="container">
         <div className='utils'>
           <SearchBar onClick={handleSelect} cityObject={cityObject}/>
-          <Toggle />
+          <Toggle handleClickUnit={handleClickUnit}/>
         </div>
         <div className='current-weather'>
-          {cityObject && <CurrentWeather unit={unit} cityObject={cityObject}/>}
+          {cityObject && <CurrentWeather unit={unit} cityObject={cityObject} speedUnit={speedUnit}/>}
         </div>
         <Forecast cityObject={cityObject} unit={unit} />
         <DailyForecast cityObject={cityObject} unit={unit} />
