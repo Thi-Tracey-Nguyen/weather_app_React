@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import CurrentWeather from '../CurrentWeather'
-import SearchBar from '../SearchBar'
-import Forecast from '../Forecast'
-import DailyForecast from '../DailyForecast'
-import Toggle from '../Toggle'
+import CurrentWeather from './current-weather/CurrentWeather'
+import SearchBar from './search-bar/SearchBar'
+import Forecast from './forecast/Forecast'
+import DailyForecast from './daily-forecast/DailyForecast'
+import Toggle from './toggle/Toggle'
+import './app.css'
 
 const App = () => {
   const MELBOURNE = {
@@ -39,19 +40,17 @@ const App = () => {
   }
 
   return (
-    <>
-      <div className="container">
-        <div className='utils'>
-          <SearchBar onClick={handleSelect} cityObject={cityObject}/>
-          <Toggle handleClickUnit={handleClickUnit}/>
-        </div>
-        <div className='current-weather'>
-          {cityObject && <CurrentWeather unit={unit} cityObject={cityObject} speedUnit={speedUnit}/>}
-        </div>
-        <Forecast cityObject={cityObject} unit={unit} />
-        <DailyForecast cityObject={cityObject} unit={unit} />
+    <div className="main">
+      <div className='utils'>
+        <SearchBar onClick={handleSelect} cityObject={cityObject}/>
+        <Toggle handleClickUnit={handleClickUnit}/>
       </div>
-    </>
+      <div className='current-weather'>
+        {cityObject && <CurrentWeather unit={unit} cityObject={cityObject} speedUnit={speedUnit}/>}
+      </div>
+      <Forecast cityObject={cityObject} unit={unit} />
+      <DailyForecast cityObject={cityObject} unit={unit} />
+    </div>
   )
 }
 

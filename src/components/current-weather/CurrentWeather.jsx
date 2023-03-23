@@ -42,7 +42,7 @@ const CurrentWeather = ({ unit, cityObject, speedUnit }) => {
         <div className='weather-data'>
           <div className='weather'>
             <div className='weather-main'>
-              <img src={renderCondition(value.condition)}  />
+              <img src={renderCondition(value.condition)} className='icon' />
               {convertTemp(value.temp, 'K', unit) + '\u00B0' + unit}
             </div>
             <p>Humidity: {value.humidity}%</p>
